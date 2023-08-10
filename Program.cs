@@ -1,6 +1,11 @@
+using Interview.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var conn= builder.Configuration.GetConnectionString("InterviewDbConnection");
+builder.Services.AddDbContext<InterviewDbContext>(q => q.UseSqlServer(conn));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
