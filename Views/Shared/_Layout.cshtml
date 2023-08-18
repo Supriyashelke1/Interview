@@ -25,11 +25,37 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Index">Appointments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="ListAvailable">Appointments</a>
+                        </li>
+                        <!--@if (User.Identity.IsAuthenticated)-->
+{
+    <li class="nav-item">
+        <form asp-controller="Login" asp-action="Logout" method="post" class="form-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-link nav-link">Logout</button>
+        </form>
+    </li>
+}
                     </ul>
                 </div>
             </div>
+            <div id="header">
+            <div id="appointments-list"> 
+            <h3>Available Appointments</h3> 
+            @await Html.PartialAsync("_AppointmentsListPartial", (List<Interview.Data.Appointment>)ViewBag.AvailableAppointments)
+            </div> 
+            <div id="booked-appointments"> 
+            <h3>Booked Appointments</h3> 
+            @await Html.PartialAsync("_BookedAppointmentsPartial", (List<Interview.Data.Booking>)ViewBag.BookedAppointments)
+            </div>
+            </div>
         </nav>
     </header>
+    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

@@ -1,0 +1,29 @@
+@model List<Interview.Data.Booking>
+
+@{
+    ViewData["Title"] = "Booked Appointments";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Purpose</th>
+            <th>Location</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@(booking.Appointment.Date?.ToString("yyyy-MM-dd"))</td>
+                <td>@booking.Appointment.Purpose</td>
+                <td>@booking.Appointment.Location</td>
+                <td>@booking.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

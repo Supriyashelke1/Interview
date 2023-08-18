@@ -1,0 +1,8 @@
+@model List<Interview.Data.Appointment>
+
+<ul class="list-unstyled">
+    @foreach (var appointment in Model)
+    {
+        <li>@(appointment.Date?.ToString("yyyy-MM-dd")) - @appointment.Purpose</li>
+    }
+</ul>

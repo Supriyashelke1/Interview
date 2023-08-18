@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Interview.Data;
 
-namespace Interview.Controllers
-{
+namespace Interview.Controllers;
+
     public class AppointmentController : Controller
     {
         private readonly InterviewDbContext _context;
@@ -18,7 +18,14 @@ namespace Interview.Controllers
             _context = context;
         }
 
+        public IActionResult ListAvailable()
+    {
+        List<Appointment> appointments = _context.Appointments.ToList();
+        return View(appointments);
+    }
+
         // GET: Appointment
+        //[Authorize(Role="Asylum Seeker")]
         public async Task<IActionResult> Index()
         {
               return _context.Appointments != null ? 
@@ -27,6 +34,7 @@ namespace Interview.Controllers
         }
 
         // GET: Appointment/Details/5
+        //[Authorize(Role="Asylum Seeker")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Appointments == null)
@@ -158,5 +166,23 @@ namespace Interview.Controllers
         {
           return (_context.Appointments?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public IActionResult Book(int id)
+    {
+        Appointment appointment = _context.Appointments.Find(id);
+        if (appointment == null)
+        {
+            return NotFound();
+        }
+        Booking newBooking = new Booking
+        {
+            AppointmentId = appointment.Id,
+            BookingDate = DateTime.Now,
+            Status = (byte)BookingStatus.Pending
+        };
+        _context.Bookings.Add(newBooking);
+        _context.SaveChanges();
+        return RedirectToAction("ListBooked");
     }
-}
+    }
+

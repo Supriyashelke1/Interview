@@ -12,4 +12,6 @@ public partial class Appointment
     public string Purpose { get; set; } = null!;
 
     public string Location { get; set; } = null!;
+
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }
